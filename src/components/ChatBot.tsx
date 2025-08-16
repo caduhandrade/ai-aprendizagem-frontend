@@ -27,7 +27,7 @@ export default function ChatBot() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const API_URL = "http://localhost:49152";
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:49152";
 
   // Get current session
   const currentSession = sessions.find((s) => s.id === currentSessionId);
@@ -104,7 +104,15 @@ export default function ChatBot() {
 
     try {
       // Prepara o payload base
-      const bodyPayload: any = { query };
+      const bodyPayload: {
+        query: string;
+        session_id?: string;
+        file?: {
+          content: string;
+          filename: string;
+          type: string;
+        };
+      } = { query };
 
       // Se a sessão já tem mensagens (não é a primeira pergunta), envia o session_id
       if (session && session.messages.length >= 2) {
@@ -203,8 +211,7 @@ export default function ChatBot() {
           }
         }
       }
-    } catch (error) {
-      debugger;
+    } catch (err) {
       setIsLoading(false);
       setStreamingMessage("");
 
