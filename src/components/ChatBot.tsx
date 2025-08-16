@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { Send, Bot, User } from "lucide-react";
 
 // Types
@@ -42,7 +42,7 @@ export default function ChatBot() {
   }, [currentSession?.messages, streamingMessage]);
 
   // Create new session
-  const createNewSession = () => {
+  const createNewSession = useCallback(() => {
     const newSession: Session = {
       id: Date.now().toString(),
       name: `Conversa ${sessions.length + 1}`,
@@ -52,14 +52,14 @@ export default function ChatBot() {
     setSessions((prev) => [...prev, newSession]);
     setCurrentSessionId(newSession.id);
     return newSession;
-  };
+  }, [sessions.length]);
 
   // Initialize first session
   useEffect(() => {
     if (sessions.length === 0) {
       createNewSession();
     }
-  }, []);
+  }, [sessions.length, createNewSession]);
 
   // Send message
   const sendMessage = async () => {
@@ -70,7 +70,7 @@ export default function ChatBot() {
       session = createNewSession();
     }
     // Guarda o id original da sessão para referência
-    const originalSessionId = session.id;
+    const originalSessionId = session ? session.id : "";
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -95,7 +95,7 @@ export default function ChatBot() {
 
     try {
       // Prepara o payload base
-      const bodyPayload: any = { query };
+      const bodyPayload: { query: string; session_id?: string } = { query };
 
       // Se a sessão já tem mensagens (não é a primeira pergunta), envia o session_id
       if (session && session.messages.length >= 2) {
@@ -142,7 +142,7 @@ export default function ChatBot() {
                 setStreamingMessage(accumulatedMessage);
               } else if (parsed.turn_complete) {
                 // Agora sim atualiza o estado com o session_id capturado
-                let finalSessionId = capturedSessionId || originalSessionId;
+                const finalSessionId = capturedSessionId || originalSessionId;
                 if (finalSessionId !== originalSessionId) {
                   setCurrentSessionId(finalSessionId);
                 }
@@ -170,7 +170,7 @@ export default function ChatBot() {
                 setIsLoading(false);
                 return;
               }
-            } catch (e) {
+            } catch {
               // Silently ignore JSON parse errors
             }
           }
