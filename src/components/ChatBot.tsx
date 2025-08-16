@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
+import ResumeUpload from "./ResumeUpload";
 import { Send, Bot, User } from "lucide-react";
 
 // Types
@@ -10,7 +11,6 @@ interface Message {
   sender: "user" | "bot";
   timestamp: Date;
 }
-
 interface Session {
   id: string;
   name: string;
@@ -24,6 +24,7 @@ export default function ChatBot() {
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [streamingMessage, setStreamingMessage] = useState("");
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const API_URL = "https://back.caduandrade.dev";
@@ -324,9 +325,17 @@ export default function ChatBot() {
           )}
           <div ref={messagesEndRef} />
         </div>
-        {/* Input Area */}
+        {/* Input Area + Upload */}
         <div className="bg-[#1e1333] border-t border-[#6c2bd7] p-4">
-          <div className="flex space-x-4">
+          {/* Exibe o nome do arquivo acima do input, se houver */}
+          {uploadedFile && (
+            <div className="mb-2 text-[#cfc3f7] text-sm flex items-center">
+              <span className="font-medium">Arquivo selecionado:</span>
+              <span className="ml-2">{uploadedFile.name}</span>
+            </div>
+          )}
+          <div className="flex space-x-4 items-end">
+            <ResumeUpload onUpload={setUploadedFile} />
             <textarea
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
