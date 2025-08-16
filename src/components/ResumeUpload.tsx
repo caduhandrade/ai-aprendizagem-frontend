@@ -1,11 +1,11 @@
 import React, { useState } from "react";
+import { Paperclip } from "lucide-react";
 
 export default function ResumeUpload({
-  onUpload,
+  onFileSelect,
 }: {
-  onUpload?: (file: File) => void;
+  onFileSelect?: (file: File) => void;
 }) {
-  const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState<string>("");
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -13,39 +13,31 @@ export default function ResumeUpload({
     if (selectedFile) {
       const ext = selectedFile.name.split(".").pop()?.toLowerCase();
       if (ext === "pdf" || ext === "docx") {
-        setFile(selectedFile);
         setError("");
+        if (onFileSelect) onFileSelect(selectedFile);
       } else {
         setError("Apenas arquivos PDF ou DOCX são permitidos.");
-        setFile(null);
       }
     }
   };
 
-  const handleUpload = async () => {
-    if (!file) return;
-    const formData = new FormData();
-    formData.append("file", file);
-    // Adapte a URL abaixo para o endpoint correto do seu back-end
-    const res = await fetch("/api/upload", {
-      method: "POST",
-      body: formData,
-    });
-    if (res.ok) {
-      if (onUpload) onUpload(file);
-      alert("Upload realizado com sucesso!");
-    } else {
-      setError("Falha no upload.");
-    }
-  };
-
   return (
-    <div>
-      <input type="file" accept=".pdf,.docx" onChange={handleFileChange} />
-      <button onClick={handleUpload} disabled={!file}>
-        Enviar
-      </button>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+    <div className="flex flex-col">
+      <label
+        htmlFor="file-upload"
+        className="cursor-pointer bg-[#6c2bd7] text-white rounded-lg px-3 py-2 hover:bg-[#8f4fff] transition-colors flex items-center gap-2"
+      >
+        <Paperclip className="w-4 h-4" />
+        Anexar CV
+      </label>
+      <input
+        id="file-upload"
+        type="file"
+        accept=".pdf,.docx"
+        onChange={handleFileChange}
+        className="hidden"
+      />
+      {error && <p className="text-red-400 text-xs mt-1">{error}</p>}
     </div>
   );
 }

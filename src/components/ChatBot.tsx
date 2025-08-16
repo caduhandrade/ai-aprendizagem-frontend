@@ -24,10 +24,10 @@ export default function ChatBot() {
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [streamingMessage, setStreamingMessage] = useState("");
-  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const API_URL = "https://back.caduandrade.dev";
+  const API_URL = "http://localhost:49152";
 
   // Get current session
   const currentSession = sessions.find((s) => s.id === currentSessionId);
@@ -103,13 +103,30 @@ export default function ChatBot() {
     setStreamingMessage("");
 
     try {
-      debugger;
       // Prepara o payload base
-      const bodyPayload: { query: string; session_id?: string } = { query };
+      const bodyPayload: any = { query };
 
       // Se a sessão já tem mensagens (não é a primeira pergunta), envia o session_id
       if (session && session.messages.length >= 2) {
         bodyPayload.session_id = originalSessionId;
+      }
+
+      // Se há arquivo selecionado, converte para base64
+      if (selectedFile) {
+        const reader = new FileReader();
+        const fileBase64 = await new Promise<string>((resolve) => {
+          reader.onload = () => resolve(reader.result as string);
+          reader.readAsDataURL(selectedFile);
+        });
+
+        bodyPayload.file = {
+          content: fileBase64,
+          filename: selectedFile.name,
+          type: selectedFile.type,
+        };
+
+        // Remove o arquivo após o envio
+        setSelectedFile(null);
       }
 
       const response = await fetch(`${API_URL}/ask`, {
@@ -328,14 +345,14 @@ export default function ChatBot() {
         {/* Input Area + Upload */}
         <div className="bg-[#1e1333] border-t border-[#6c2bd7] p-4">
           {/* Exibe o nome do arquivo acima do input, se houver */}
-          {uploadedFile && (
+          {selectedFile && (
             <div className="mb-2 text-[#cfc3f7] text-sm flex items-center">
               <span className="font-medium">Arquivo selecionado:</span>
-              <span className="ml-2">{uploadedFile.name}</span>
+              <span className="ml-2">{selectedFile.name}</span>
             </div>
           )}
           <div className="flex space-x-4 items-end">
-            <ResumeUpload onUpload={setUploadedFile} />
+            <ResumeUpload onFileSelect={setSelectedFile} />
             <textarea
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
