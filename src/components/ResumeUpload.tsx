@@ -19,6 +19,9 @@ export default function ResumeUpload({
         setError("Apenas arquivos PDF ou DOCX são permitidos.");
       }
     }
+
+    // Reset o input para permitir selecionar o mesmo arquivo novamente
+    e.target.value = "";
   };
 
   return (
