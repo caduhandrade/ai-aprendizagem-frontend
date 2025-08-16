@@ -42,17 +42,26 @@ export default function ChatBot() {
   }, [currentSession?.messages, streamingMessage]);
 
   // Create new session
-  const createNewSession = useCallback(() => {
-    const newSession: Session = {
-      id: Date.now().toString(),
-      name: `Conversa ${sessions.length + 1}`,
-      messages: [],
-      createdAt: new Date(),
-    };
-    setSessions((prev) => [...prev, newSession]);
-    setCurrentSessionId(newSession.id);
-    return newSession;
-  }, [sessions.length]);
+  const createNewSession = useCallback(
+    (firstQuestion?: string) => {
+      let title = `Conversa ${sessions.length + 1}`;
+      if (firstQuestion) {
+        // Pega as 3 primeiras palavras da pergunta do usuário
+        const words = firstQuestion.trim().split(/\s+/).slice(0, 3).join(" ");
+        if (words.length > 0) title = words;
+      }
+      const newSession: Session = {
+        id: Date.now().toString(),
+        name: title,
+        messages: [],
+        createdAt: new Date(),
+      };
+      setSessions((prev) => [...prev, newSession]);
+      setCurrentSessionId(newSession.id);
+      return newSession;
+    },
+    [sessions.length]
+  );
 
   // Initialize first session
   useEffect(() => {
@@ -67,7 +76,7 @@ export default function ChatBot() {
 
     let session = currentSession;
     if (!session) {
-      session = createNewSession();
+      session = createNewSession(inputValue.trim());
     }
     // Guarda o id original da sessão para referência
     const originalSessionId = session ? session.id : "";
@@ -94,6 +103,7 @@ export default function ChatBot() {
     setStreamingMessage("");
 
     try {
+      debugger;
       // Prepara o payload base
       const bodyPayload: { query: string; session_id?: string } = { query };
 
@@ -177,6 +187,7 @@ export default function ChatBot() {
         }
       }
     } catch (error) {
+      debugger;
       setIsLoading(false);
       setStreamingMessage("");
 
@@ -212,7 +223,7 @@ export default function ChatBot() {
       <div className="w-64 bg-white border-r border-gray-200 flex flex-col">
         <div className="p-4 border-b border-gray-200">
           <button
-            onClick={createNewSession}
+            onClick={() => createNewSession()}
             className="w-full bg-blue-600 text-white rounded-lg px-4 py-2 hover:bg-blue-700 transition-colors"
           >
             Nova Conversa
