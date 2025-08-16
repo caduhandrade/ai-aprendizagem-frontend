@@ -217,7 +217,7 @@ export default function ChatBot() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-[#181024]">
       {/* Sidebar */}
       <div className="w-64 bg-white border-r border-gray-200 flex flex-col">
         <div className="p-4 border-b border-gray-200">
@@ -333,21 +333,21 @@ export default function ChatBot() {
         </div>
 
         {/* Input Area */}
-        <div className="bg-white border-t border-gray-200 p-4">
+        <div className="bg-[#1e1333] border-t border-[#6c2bd7] p-4">
           <div className="flex space-x-4">
             <textarea
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={handleKeyPress}
               placeholder="Digite sua pergunta..."
-              className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+              className="flex-1 border border-[#6c2bd7] bg-[#24143a] text-[#cfc3f7] rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#8f4fff] focus:border-transparent resize-none placeholder:text-[#a48be7]"
               rows={1}
               disabled={isLoading}
             />
             <button
               onClick={sendMessage}
               disabled={!inputValue.trim() || isLoading}
-              className="bg-blue-600 text-white rounded-lg px-4 py-2 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors"
+              className="bg-[#6c2bd7] text-white rounded-lg px-4 py-2 hover:bg-[#8f4fff] disabled:bg-[#3a235c] disabled:cursor-not-allowed transition-colors"
             >
               <Send className="w-5 h-5" />
             </button>
