@@ -26,7 +26,7 @@ export default function ChatBot() {
   const [streamingMessage, setStreamingMessage] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const API_URL = "https://backend.caduandrade.dev";
+  const API_URL = "https://back.caduandrade.dev";
 
   // Get current session
   const currentSession = sessions.find((s) => s.id === currentSessionId);
