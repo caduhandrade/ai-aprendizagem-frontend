@@ -219,50 +219,45 @@ export default function ChatBot() {
   return (
     <div className="flex h-screen bg-[#181024]">
       {/* Sidebar */}
-      <div className="w-64 bg-white border-r border-gray-200 flex flex-col">
-        <div className="p-4 border-b border-gray-200">
+      <div className="w-64 bg-[#1e1333] border-r border-[#6c2bd7] flex flex-col">
+        <div className="p-4 border-b border-[#6c2bd7]">
           <button
             onClick={() => createNewSession()}
-            className="w-full bg-blue-600 text-white rounded-lg px-4 py-2 hover:bg-blue-700 transition-colors"
+            className="w-full bg-[#6c2bd7] text-white rounded-lg px-4 py-2 hover:bg-[#8f4fff] transition-colors"
           >
             Nova Conversa
           </button>
         </div>
-
         <div className="flex-1 overflow-y-auto">
           {sessions.map((session) => (
             <div
               key={session.id}
-              className={`p-3 cursor-pointer border-b border-gray-100 hover:bg-gray-50 ${
+              className={`p-3 cursor-pointer border-b border-[#2d1847] hover:bg-[#24143a] ${
                 currentSessionId === session.id
-                  ? "bg-blue-50 border-blue-200"
-                  : ""
+                  ? "bg-[#6c2bd7] border-[#8f4fff] text-white"
+                  : "text-[#cfc3f7]"
               }`}
               onClick={() => setCurrentSessionId(session.id)}
             >
-              <div className="font-medium text-sm text-gray-900">
-                {session.name}
-              </div>
-              <div className="text-xs text-gray-500 mt-1">
+              <div className="font-medium text-sm">{session.name}</div>
+              <div className="text-xs mt-1">
                 {session.messages.length} mensagens
               </div>
             </div>
           ))}
         </div>
       </div>
-
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col bg-[#181024]">
         {/* Header */}
-        <div className="bg-white border-b border-gray-200 px-6 py-4">
+        <div className="bg-[#1e1333] border-b border-[#6c2bd7] px-6 py-4">
           <div className="flex items-center">
-            <Bot className="w-6 h-6 text-blue-600 mr-3" />
-            <h1 className="text-xl font-semibold text-gray-900">
+            <Bot className="w-6 h-6 text-[#8f4fff] mr-3" />
+            <h1 className="text-xl font-semibold text-[#cfc3f7]">
               Assistente de Aprendizagem
             </h1>
           </div>
         </div>
-
         {/* Messages */}
         <div className="flex-1 overflow-y-auto p-6 space-y-4">
           {currentSession ? (
@@ -277,13 +272,13 @@ export default function ChatBot() {
                   <div
                     className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
                       message.sender === "user"
-                        ? "bg-blue-600 text-white"
-                        : "bg-white border border-gray-200 text-gray-900"
+                        ? "bg-[#6c2bd7] text-white"
+                        : "bg-[#24143a] border border-[#6c2bd7] text-[#cfc3f7]"
                     }`}
                   >
                     <div className="flex items-start space-x-2">
                       {message.sender === "bot" && (
-                        <Bot className="w-4 h-4 mt-0.5 text-blue-600 flex-shrink-0" />
+                        <Bot className="w-4 h-4 mt-0.5 text-[#8f4fff] flex-shrink-0" />
                       )}
                       {message.sender === "user" && (
                         <User className="w-4 h-4 mt-0.5 text-white flex-shrink-0" />
@@ -295,13 +290,12 @@ export default function ChatBot() {
                   </div>
                 </div>
               ))}
-
               {/* Streaming message */}
               {streamingMessage && (
                 <div className="flex justify-start">
-                  <div className="max-w-xs lg:max-w-md px-4 py-2 rounded-lg bg-white border border-gray-200 text-gray-900">
+                  <div className="max-w-xs lg:max-w-md px-4 py-2 rounded-lg bg-[#24143a] border border-[#6c2bd7] text-[#cfc3f7]">
                     <div className="flex items-start space-x-2">
-                      <Bot className="w-4 h-4 mt-0.5 text-blue-600 flex-shrink-0" />
+                      <Bot className="w-4 h-4 mt-0.5 text-[#8f4fff] flex-shrink-0" />
                       <div className="whitespace-pre-wrap text-sm">
                         {streamingMessage}
                       </div>
@@ -309,14 +303,13 @@ export default function ChatBot() {
                   </div>
                 </div>
               )}
-
               {/* Loading indicator */}
               {isLoading && !streamingMessage && (
                 <div className="flex justify-start">
-                  <div className="max-w-xs lg:max-w-md px-4 py-2 rounded-lg bg-white border border-gray-200 text-gray-900">
+                  <div className="max-w-xs lg:max-w-md px-4 py-2 rounded-lg bg-[#24143a] border border-[#6c2bd7] text-[#cfc3f7]">
                     <div className="flex items-start space-x-2">
-                      <Bot className="w-4 h-4 mt-0.5 text-blue-600 flex-shrink-0" />
-                      <div className="text-sm text-gray-500">
+                      <Bot className="w-4 h-4 mt-0.5 text-[#8f4fff] flex-shrink-0" />
+                      <div className="text-sm text-[#a48be7]">
                         <span className="animate-pulse">PENSANDO...</span>
                       </div>
                     </div>
@@ -325,13 +318,12 @@ export default function ChatBot() {
               )}
             </>
           ) : (
-            <div className="text-center text-gray-500 mt-8">
+            <div className="text-center text-[#a48be7] mt-8">
               Selecione uma conversa ou crie uma nova para começar
             </div>
           )}
           <div ref={messagesEndRef} />
         </div>
-
         {/* Input Area */}
         <div className="bg-[#1e1333] border-t border-[#6c2bd7] p-4">
           <div className="flex space-x-4">
