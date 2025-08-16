@@ -27,7 +27,7 @@ export default function ChatBot() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const API_URL =
-    "https://pocadk-apiadk-wo9w6w-759b4d-103-199-184-68.traefik.me";
+    "http://pocadk-apiadk-wo9w6w-759b4d-103-199-184-68.traefik.me";
 
   // Get current session
   const currentSession = sessions.find((s) => s.id === currentSessionId);
