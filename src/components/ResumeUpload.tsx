@@ -28,9 +28,9 @@ export default function ResumeUpload({
     <div className="flex flex-col">
       <label
         htmlFor="file-upload"
-        className="cursor-pointer bg-[#2563eb] text-white rounded-lg px-3 py-2 hover:bg-[#3b82f6] transition-colors flex items-center gap-2"
+        className="cursor-pointer bg-[#2563eb] text-white rounded-xl px-4 py-4 hover:bg-[#3b82f6] transition-colors flex items-center gap-2 shadow-lg"
       >
-        <Paperclip className="w-4 h-4" />
+        <Paperclip className="w-5 h-5" />
         Anexar CV
       </label>
       <input
