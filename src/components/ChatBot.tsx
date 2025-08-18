@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import ResumeUpload from "./ResumeUpload";
-import { Send, Bot, User } from "lucide-react";
+import { Send, User, Globe } from "lucide-react";
 
 // Types
 interface Message {
@@ -211,7 +211,7 @@ export default function ChatBot() {
           }
         }
       }
-    } catch (err) {
+    } catch {
       setIsLoading(false);
       setStreamingMessage("");
 
@@ -242,13 +242,13 @@ export default function ChatBot() {
   };
 
   return (
-    <div className="flex h-screen bg-[#181024]">
+    <div className="flex h-screen bg-[#0a1428]">
       {/* Sidebar */}
-      <div className="w-64 bg-[#1e1333] border-r border-[#6c2bd7] flex flex-col">
-        <div className="p-4 border-b border-[#6c2bd7]">
+      <div className="w-64 bg-[#1a2332] border-r border-[#2563eb] flex flex-col">
+        <div className="p-4 border-b border-[#2563eb]">
           <button
             onClick={() => createNewSession()}
-            className="w-full bg-[#6c2bd7] text-white rounded-lg px-4 py-2 hover:bg-[#8f4fff] transition-colors"
+            className="w-full bg-[#2563eb] text-white rounded-lg px-4 py-2 hover:bg-[#3b82f6] transition-colors"
           >
             Nova Conversa
           </button>
@@ -257,10 +257,10 @@ export default function ChatBot() {
           {sessions.map((session) => (
             <div
               key={session.id}
-              className={`p-3 cursor-pointer border-b border-[#2d1847] hover:bg-[#24143a] ${
+              className={`p-3 cursor-pointer border-b border-[#334155] hover:bg-[#1e293b] ${
                 currentSessionId === session.id
-                  ? "bg-[#6c2bd7] border-[#8f4fff] text-white"
-                  : "text-[#cfc3f7]"
+                  ? "bg-[#2563eb] border-[#3b82f6] text-white"
+                  : "text-[#bfdbfe]"
               }`}
               onClick={() => setCurrentSessionId(session.id)}
             >
@@ -273,12 +273,12 @@ export default function ChatBot() {
         </div>
       </div>
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col bg-[#181024]">
+      <div className="flex-1 flex flex-col bg-[#0a1428]">
         {/* Header */}
-        <div className="bg-[#1e1333] border-b border-[#6c2bd7] px-6 py-4">
+        <div className="bg-[#1a2332] border-b border-[#2563eb] px-6 py-4">
           <div className="flex items-center">
-            <Bot className="w-6 h-6 text-[#8f4fff] mr-3" />
-            <h1 className="text-xl font-semibold text-[#cfc3f7]">
+            <Globe className="w-6 h-6 text-[#3b82f6] mr-3" />
+            <h1 className="text-xl font-semibold text-[#bfdbfe]">
               Assistente de Aprendizagem
             </h1>
           </div>
@@ -297,13 +297,13 @@ export default function ChatBot() {
                   <div
                     className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
                       message.sender === "user"
-                        ? "bg-[#6c2bd7] text-white"
-                        : "bg-[#24143a] border border-[#6c2bd7] text-[#cfc3f7]"
+                        ? "bg-[#2563eb] text-white"
+                        : "bg-[#1e293b] border border-[#2563eb] text-[#bfdbfe]"
                     }`}
                   >
                     <div className="flex items-start space-x-2">
                       {message.sender === "bot" && (
-                        <Bot className="w-4 h-4 mt-0.5 text-[#8f4fff] flex-shrink-0" />
+                        <Globe className="w-4 h-4 mt-0.5 text-[#3b82f6] flex-shrink-0" />
                       )}
                       {message.sender === "user" && (
                         <User className="w-4 h-4 mt-0.5 text-white flex-shrink-0" />
@@ -318,9 +318,9 @@ export default function ChatBot() {
               {/* Streaming message */}
               {streamingMessage && (
                 <div className="flex justify-start">
-                  <div className="max-w-xs lg:max-w-md px-4 py-2 rounded-lg bg-[#24143a] border border-[#6c2bd7] text-[#cfc3f7]">
+                  <div className="max-w-xs lg:max-w-md px-4 py-2 rounded-lg bg-[#1e293b] border border-[#2563eb] text-[#bfdbfe]">
                     <div className="flex items-start space-x-2">
-                      <Bot className="w-4 h-4 mt-0.5 text-[#8f4fff] flex-shrink-0" />
+                      <Globe className="w-4 h-4 mt-0.5 text-[#3b82f6] flex-shrink-0" />
                       <div className="whitespace-pre-wrap text-sm">
                         {streamingMessage}
                       </div>
@@ -331,10 +331,10 @@ export default function ChatBot() {
               {/* Loading indicator */}
               {isLoading && !streamingMessage && (
                 <div className="flex justify-start">
-                  <div className="max-w-xs lg:max-w-md px-4 py-2 rounded-lg bg-[#24143a] border border-[#6c2bd7] text-[#cfc3f7]">
+                  <div className="max-w-xs lg:max-w-md px-4 py-2 rounded-lg bg-[#1e293b] border border-[#2563eb] text-[#bfdbfe]">
                     <div className="flex items-start space-x-2">
-                      <Bot className="w-4 h-4 mt-0.5 text-[#8f4fff] flex-shrink-0" />
-                      <div className="text-sm text-[#a48be7]">
+                      <Globe className="w-4 h-4 mt-0.5 text-[#3b82f6] flex-shrink-0" />
+                      <div className="text-sm text-[#93c5fd]">
                         <span className="animate-pulse">PENSANDO...</span>
                       </div>
                     </div>
@@ -343,17 +343,17 @@ export default function ChatBot() {
               )}
             </>
           ) : (
-            <div className="text-center text-[#a48be7] mt-8">
+            <div className="text-center text-[#93c5fd] mt-8">
               Selecione uma conversa ou crie uma nova para começar
             </div>
           )}
           <div ref={messagesEndRef} />
         </div>
         {/* Input Area + Upload */}
-        <div className="bg-[#1e1333] border-t border-[#6c2bd7] p-4">
+        <div className="bg-[#1a2332] border-t border-[#2563eb] p-4">
           {/* Exibe o nome do arquivo acima do input, se houver */}
           {selectedFile && (
-            <div className="mb-2 text-[#cfc3f7] text-sm flex items-center">
+            <div className="mb-2 text-[#bfdbfe] text-sm flex items-center">
               <span className="font-medium">Arquivo selecionado:</span>
               <span className="ml-2">{selectedFile.name}</span>
             </div>
@@ -365,14 +365,14 @@ export default function ChatBot() {
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={handleKeyPress}
               placeholder="Digite sua pergunta..."
-              className="flex-1 border border-[#6c2bd7] bg-[#24143a] text-[#cfc3f7] rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#8f4fff] focus:border-transparent resize-none placeholder:text-[#a48be7]"
+              className="flex-1 border border-[#2563eb] bg-[#1e293b] text-[#bfdbfe] rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#3b82f6] focus:border-transparent resize-none placeholder:text-[#93c5fd]"
               rows={1}
               disabled={isLoading}
             />
             <button
               onClick={sendMessage}
               disabled={!inputValue.trim() || isLoading}
-              className="bg-[#6c2bd7] text-white rounded-lg px-4 py-2 hover:bg-[#8f4fff] disabled:bg-[#3a235c] disabled:cursor-not-allowed transition-colors"
+              className="bg-[#2563eb] text-white rounded-lg px-4 py-2 hover:bg-[#3b82f6] disabled:bg-[#475569] disabled:cursor-not-allowed transition-colors"
             >
               <Send className="w-5 h-5" />
             </button>
