@@ -245,10 +245,10 @@ export default function ChatBot() {
     <div className="flex h-screen bg-[#0a1428]">
       {/* Sidebar */}
       <div className="w-64 bg-[#1a2332] border-r border-[#2563eb] flex flex-col">
-        <div className="p-6 border-b border-[#2563eb]">
+        <div className="p-4 border-b border-[#2563eb]">
           <button
             onClick={() => createNewSession()}
-            className="w-full bg-[#2563eb] text-white rounded-xl px-4 py-3 hover:bg-[#3b82f6] transition-colors font-medium shadow-lg"
+            className="w-full bg-[#2563eb] text-white rounded-lg px-4 py-2 hover:bg-[#3b82f6] transition-colors"
           >
             Nova Conversa
           </button>
@@ -257,7 +257,7 @@ export default function ChatBot() {
           {sessions.map((session) => (
             <div
               key={session.id}
-              className={`p-4 cursor-pointer border-b border-[#334155] hover:bg-[#1e293b] transition-colors ${
+              className={`p-3 cursor-pointer border-b border-[#334155] hover:bg-[#1e293b] ${
                 currentSessionId === session.id
                   ? "bg-[#2563eb] border-[#3b82f6] text-white"
                   : "text-[#bfdbfe]"
@@ -265,7 +265,7 @@ export default function ChatBot() {
               onClick={() => setCurrentSessionId(session.id)}
             >
               <div className="font-medium text-sm">{session.name}</div>
-              <div className="text-xs mt-1 opacity-75">
+              <div className="text-xs mt-1">
                 {session.messages.length} mensagens
               </div>
             </div>
@@ -275,18 +275,16 @@ export default function ChatBot() {
       {/* Main Chat Area */}
       <div className="flex-1 flex flex-col bg-[#0a1428]">
         {/* Header */}
-        <div className="bg-[#1a2332] border-b border-[#2563eb] px-6 py-6">
-          <div className="flex items-center justify-center">
-            <div className="flex items-center">
-              <Globe className="w-7 h-7 text-[#3b82f6] mr-4" />
-              <h1 className="text-2xl font-bold text-[#bfdbfe]">
-                Assistente de Aprendizagem
-              </h1>
-            </div>
+        <div className="bg-[#1a2332] border-b border-[#2563eb] px-6 py-4">
+          <div className="flex items-center">
+            <Globe className="w-6 h-6 text-[#3b82f6] mr-3" />
+            <h1 className="text-xl font-semibold text-[#bfdbfe]">
+              Assistente de Aprendizagem
+            </h1>
           </div>
         </div>
         {/* Messages */}
-        <div className="flex-1 overflow-y-auto p-8 space-y-6">
+        <div className="flex-1 overflow-y-auto p-6 space-y-4">
           {currentSession ? (
             <>
               {currentSession.messages.map((message) => (
@@ -297,20 +295,20 @@ export default function ChatBot() {
                   }`}
                 >
                   <div
-                    className={`max-w-xs lg:max-w-md px-6 py-4 rounded-2xl ${
+                    className={`max-w-xs lg:max-w-md px-4 py-2 rounded-lg ${
                       message.sender === "user"
-                        ? "bg-[#2563eb] text-white shadow-lg"
-                        : "bg-[#1e293b] border-2 border-[#2563eb] text-[#bfdbfe] shadow-lg"
+                        ? "bg-[#2563eb] text-white"
+                        : "bg-[#1e293b] border border-[#2563eb] text-[#bfdbfe]"
                     }`}
                   >
-                    <div className="flex items-start space-x-3">
+                    <div className="flex items-start space-x-2">
                       {message.sender === "bot" && (
-                        <Globe className="w-5 h-5 mt-0.5 text-[#3b82f6] flex-shrink-0" />
+                        <Globe className="w-4 h-4 mt-0.5 text-[#3b82f6] flex-shrink-0" />
                       )}
                       {message.sender === "user" && (
-                        <User className="w-5 h-5 mt-0.5 text-white flex-shrink-0" />
+                        <User className="w-4 h-4 mt-0.5 text-white flex-shrink-0" />
                       )}
-                      <div className="whitespace-pre-wrap text-base leading-relaxed">
+                      <div className="whitespace-pre-wrap text-sm">
                         {message.content}
                       </div>
                     </div>
@@ -320,10 +318,10 @@ export default function ChatBot() {
               {/* Streaming message */}
               {streamingMessage && (
                 <div className="flex justify-start">
-                  <div className="max-w-xs lg:max-w-md px-6 py-4 rounded-2xl bg-[#1e293b] border-2 border-[#2563eb] text-[#bfdbfe] shadow-lg">
-                    <div className="flex items-start space-x-3">
-                      <Globe className="w-5 h-5 mt-0.5 text-[#3b82f6] flex-shrink-0" />
-                      <div className="whitespace-pre-wrap text-base leading-relaxed">
+                  <div className="max-w-xs lg:max-w-md px-4 py-2 rounded-lg bg-[#1e293b] border border-[#2563eb] text-[#bfdbfe]">
+                    <div className="flex items-start space-x-2">
+                      <Globe className="w-4 h-4 mt-0.5 text-[#3b82f6] flex-shrink-0" />
+                      <div className="whitespace-pre-wrap text-sm">
                         {streamingMessage}
                       </div>
                     </div>
@@ -333,10 +331,10 @@ export default function ChatBot() {
               {/* Loading indicator */}
               {isLoading && !streamingMessage && (
                 <div className="flex justify-start">
-                  <div className="max-w-xs lg:max-w-md px-6 py-4 rounded-2xl bg-[#1e293b] border-2 border-[#2563eb] text-[#bfdbfe] shadow-lg">
-                    <div className="flex items-start space-x-3">
-                      <Globe className="w-5 h-5 mt-0.5 text-[#3b82f6] flex-shrink-0" />
-                      <div className="text-base text-[#93c5fd]">
+                  <div className="max-w-xs lg:max-w-md px-4 py-2 rounded-lg bg-[#1e293b] border border-[#2563eb] text-[#bfdbfe]">
+                    <div className="flex items-start space-x-2">
+                      <Globe className="w-4 h-4 mt-0.5 text-[#3b82f6] flex-shrink-0" />
+                      <div className="text-sm text-[#93c5fd]">
                         <span className="animate-pulse">PENSANDO...</span>
                       </div>
                     </div>
@@ -345,40 +343,38 @@ export default function ChatBot() {
               )}
             </>
           ) : (
-            <div className="text-center text-[#93c5fd] mt-12 text-lg">
+            <div className="text-center text-[#93c5fd] mt-8">
               Selecione uma conversa ou crie uma nova para começar
             </div>
           )}
           <div ref={messagesEndRef} />
         </div>
         {/* Input Area + Upload */}
-        <div className="bg-[#1a2332] border-t border-[#2563eb] p-6">
+        <div className="bg-[#1a2332] border-t border-[#2563eb] p-4">
           {/* Exibe o nome do arquivo acima do input, se houver */}
           {selectedFile && (
-            <div className="mb-3 text-[#bfdbfe] text-sm flex items-center bg-[#0a1428] px-4 py-2 rounded-lg border border-[#2563eb]">
+            <div className="mb-2 text-[#bfdbfe] text-sm flex items-center">
               <span className="font-medium">Arquivo selecionado:</span>
               <span className="ml-2">{selectedFile.name}</span>
             </div>
           )}
           <div className="flex space-x-4 items-end">
             <ResumeUpload onFileSelect={setSelectedFile} />
-            <div className="flex-1 relative">
-              <textarea
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                onKeyDown={handleKeyPress}
-                placeholder="Digite sua pergunta..."
-                className="w-full border-2 border-[#2563eb] bg-[#1e293b] text-[#bfdbfe] rounded-xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-[#3b82f6] focus:border-[#3b82f6] resize-none placeholder:text-[#93c5fd] text-base"
-                rows={1}
-                disabled={isLoading}
-              />
-            </div>
+            <textarea
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={handleKeyPress}
+              placeholder="Digite sua pergunta..."
+              className="flex-1 border border-[#2563eb] bg-[#1e293b] text-[#bfdbfe] rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#3b82f6] focus:border-transparent resize-none placeholder:text-[#93c5fd]"
+              rows={1}
+              disabled={isLoading}
+            />
             <button
               onClick={sendMessage}
               disabled={!inputValue.trim() || isLoading}
-              className="bg-[#2563eb] text-white rounded-xl px-6 py-4 hover:bg-[#3b82f6] disabled:bg-[#475569] disabled:cursor-not-allowed transition-colors shadow-lg"
+              className="bg-[#2563eb] text-white rounded-lg px-4 py-2 hover:bg-[#3b82f6] disabled:bg-[#475569] disabled:cursor-not-allowed transition-colors"
             >
-              <Send className="w-6 h-6" />
+              <Send className="w-5 h-5" />
             </button>
           </div>
         </div>
